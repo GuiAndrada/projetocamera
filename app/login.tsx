@@ -24,12 +24,10 @@ export default function LoginScreen() {
       });
       const data = await response.json();
 
-      if (data.status === 'sucesso' && data.tipo === 'aluno') {
-        router.push(('/painelAluno?email=' + usuario) as any);
-      } else if (data.status === 'sucesso' && data.tipo === 'admin') {
-        router.push(('/painelAdmin?email=' + usuario) as any);
+      if (data.status === 'sucesso') {
+        router.push((`/mapa?email=${usuario}&tipo=${data.tipo}`) as any);
       } else {
-        router.push('/erro' as any);
+        Alert.alert('Erro', 'Email ou senha incorretos!');
       }
     } catch (error) {
       Alert.alert('Erro', 'Não foi possível conectar ao servidor.');
@@ -38,18 +36,20 @@ export default function LoginScreen() {
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+      headerBackgroundColor={{ light: '#27ae60', dark: '#1a5c38' }}
       headerImage={
         <Image
-          source={{ uri: 'https://cdn-icons-png.flaticon.com/512/295/295128.png' }}
-          style={styles.reactLogo}
+          source={{ uri: 'https://cdn-icons-png.flaticon.com/512/2933/2933245.png' }}
+          style={styles.logo}
         />
       }
     >
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">LOGIN</ThemedText>
+        <ThemedText type="title">🌱 EcoMap</ThemedText>
         <HelloWave />
       </ThemedView>
+
+      <ThemedText>Mapeamento de Lixo Eletrônico</ThemedText>
 
       <ThemedText>Email</ThemedText>
       <TextInput
@@ -63,14 +63,14 @@ export default function LoginScreen() {
 
       <ThemedText>Senha</ThemedText>
       <TextInput
-        placeholder="Digite sua Senha"
+        placeholder="Digite sua senha"
         value={senha}
         onChangeText={setSenha}
         secureTextEntry={true}
         style={styles.input}
       />
 
-      <Button onPress={validarLogin} title="Login" />
+      <Button onPress={validarLogin} title="Entrar" color="#27ae60" />
 
       <ThemedView style={styles.stepContainer} />
     </ParallaxScrollView>
@@ -80,7 +80,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   titleContainer: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   stepContainer: { gap: 8, marginBottom: 8 },
-  reactLogo: { height: 178, width: 178, bottom: 0, left: 0, position: 'absolute' },
+  logo: { height: 178, width: 178, bottom: 0, left: 0, position: 'absolute' },
   input: {
     borderWidth: 1, borderColor: '#ccc', padding: 10,
     borderRadius: 8, marginBottom: 10, backgroundColor: '#fff',
